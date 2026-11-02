@@ -35,45 +35,64 @@
             <div>
                 <h2 class="{{ $judulSeksi }}">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    Data Pegawai
+                    Data Pegawai yang Diusulkan
                 </h2>
 
-                <div class="mt-3 grid gap-x-5 gap-y-5 md:grid-cols-2">
-                    <div class="md:col-span-2">
-                        <label for="nip" class="{{ $label }}">NIP <span class="text-[#E7000B]">*</span></label>
-                        <input id="nip" name="nip" type="text" inputmode="numeric" maxlength="18"
-                               placeholder="Masukkan 18 digit NIP pegawai" class="{{ $input }}">
-                    </div>
+                <div id="pegawai-list" class="mt-3 space-y-4">
+                    <fieldset data-pegawai-card class="rounded-xl border border-[#E5E7EB] p-5">
+                        <legend class="sr-only">Data pegawai</legend>
+                        <div class="mb-4 flex items-center justify-between">
+                            <h3 class="text-sm font-medium text-[#1E2939]">Pegawai <span data-pegawai-number>1</span></h3>
+                            <button type="button" data-remove-pegawai hidden
+                                    class="text-xs font-medium text-[#E7000B] hover:underline">
+                                Hapus pegawai
+                            </button>
+                        </div>
 
-                    <div>
-                        <label for="nama" class="{{ $label }}">Nama Pegawai <span class="text-[#E7000B]">*</span></label>
-                        <input id="nama" name="nama" type="text" readonly
-                               placeholder="Otomatis terisi setelah NIP dimasukkan" class="{{ $input }}">
-                    </div>
-                    <div>
-                        <label for="gelar" class="{{ $label }}">Gelar</label>
-                        <input id="gelar" name="gelar" type="text" readonly
-                               placeholder="Otomatis terisi setelah NIP dimasukkan" class="{{ $input }}">
-                    </div>
+                        <div class="grid gap-x-5 gap-y-5 md:grid-cols-2">
+                            <div class="md:col-span-2">
+                                <label data-label-field="nip" for="pegawai-0-nip" class="{{ $label }}">NIP <span class="text-[#E7000B]">*</span></label>
+                                <input data-field="nip" id="pegawai-0-nip" name="pegawai[0][nip]" type="text" inputmode="numeric" maxlength="18"
+                                       placeholder="Masukkan 18 digit NIP pegawai" class="{{ $input }}">
+                            </div>
 
-                    <div>
-                        <label for="pangkat_golongan" class="{{ $label }}">Pangkat/Golongan <span class="text-[#E7000B]">*</span></label>
-                        <input id="pangkat_golongan" name="pangkat_golongan" type="text" readonly
-                               placeholder="Auto-fill dari sistem SIASN" class="{{ $input }}">
-                        <p class="mt-1 text-[10px] text-[#99A1AF]">Otomatis terisi berdasarkan data SIASN</p>
-                    </div>
-                    <div>
-                        <label for="jabatan" class="{{ $label }}">Jabatan <span class="text-[#E7000B]">*</span></label>
-                        <input id="jabatan" name="jabatan" type="text" readonly
-                               placeholder="Otomatis terisi setelah NIP dimasukkan" class="{{ $input }}">
-                    </div>
+                            <div>
+                                <label data-label-field="nama" for="pegawai-0-nama" class="{{ $label }}">Nama Pegawai <span class="text-[#E7000B]">*</span></label>
+                                <input data-field="nama" id="pegawai-0-nama" name="pegawai[0][nama]" type="text" readonly
+                                       placeholder="Otomatis terisi setelah NIP dimasukkan" class="{{ $input }}">
+                            </div>
+                            <div>
+                                <label data-label-field="gelar" for="pegawai-0-gelar" class="{{ $label }}">Gelar</label>
+                                <input data-field="gelar" id="pegawai-0-gelar" name="pegawai[0][gelar]" type="text" readonly
+                                       placeholder="Otomatis terisi setelah NIP dimasukkan" class="{{ $input }}">
+                            </div>
 
-                    <div class="md:col-span-2">
-                        <label for="unit_kerja" class="{{ $label }}">Unit Kerja <span class="text-[#E7000B]">*</span></label>
-                        <input id="unit_kerja" name="unit_kerja" type="text" readonly
-                               placeholder="Otomatis terisi setelah NIP dimasukkan" class="{{ $input }}">
-                    </div>
+                            <div>
+                                <label data-label-field="pangkat_golongan" for="pegawai-0-pangkat_golongan" class="{{ $label }}">Pangkat/Golongan <span class="text-[#E7000B]">*</span></label>
+                                <input data-field="pangkat_golongan" id="pegawai-0-pangkat_golongan" name="pegawai[0][pangkat_golongan]" type="text" readonly
+                                       placeholder="Auto-fill dari sistem SIASN" class="{{ $input }}">
+                                <p class="mt-1 text-[10px] text-[#99A1AF]">Otomatis terisi berdasarkan data SIASN</p>
+                            </div>
+                            <div>
+                                <label data-label-field="jabatan" for="pegawai-0-jabatan" class="{{ $label }}">Jabatan <span class="text-[#E7000B]">*</span></label>
+                                <input data-field="jabatan" id="pegawai-0-jabatan" name="pegawai[0][jabatan]" type="text" readonly
+                                       placeholder="Otomatis terisi setelah NIP dimasukkan" class="{{ $input }}">
+                            </div>
+
+                            <div class="md:col-span-2">
+                                <label data-label-field="unit_kerja" for="pegawai-0-unit_kerja" class="{{ $label }}">Unit Kerja <span class="text-[#E7000B]">*</span></label>
+                                <input data-field="unit_kerja" id="pegawai-0-unit_kerja" name="pegawai[0][unit_kerja]" type="text" readonly
+                                       placeholder="Otomatis terisi setelah NIP dimasukkan" class="{{ $input }}">
+                            </div>
+                        </div>
+                    </fieldset>
                 </div>
+
+                <button id="tambah-pegawai" type="button"
+                        class="mt-4 inline-flex h-10 items-center gap-2 rounded-lg border border-[#00A4FF] px-4 text-sm font-medium text-[#0055B6] hover:bg-[#E2F2FD]">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                    Tambah Nama Pegawai
+                </button>
             </div>
 
             {{-- Jenis Satyalancana --}}
@@ -136,3 +155,54 @@
     </form>
 </section>
 @endsection
+
+@push('scripts')
+    <script>
+        const pegawaiList = document.getElementById('pegawai-list');
+        const tambahPegawaiButton = document.getElementById('tambah-pegawai');
+
+        if (pegawaiList && tambahPegawaiButton) {
+            const updatePegawaiCards = () => {
+                const cards = [...pegawaiList.querySelectorAll('[data-pegawai-card]')];
+
+                cards.forEach((card, index) => {
+                    card.querySelector('[data-pegawai-number]').textContent = String(index + 1);
+                    card.querySelector('[data-remove-pegawai]').hidden = cards.length === 1;
+
+                    card.querySelectorAll('[data-field]').forEach((field) => {
+                        const name = field.dataset.field;
+                        field.id = `pegawai-${index}-${name}`;
+                        field.name = `pegawai[${index}][${name}]`;
+                    });
+
+                    card.querySelectorAll('[data-label-field]').forEach((label) => {
+                        label.htmlFor = `pegawai-${index}-${label.dataset.labelField}`;
+                    });
+                });
+            };
+
+            tambahPegawaiButton.addEventListener('click', () => {
+                const card = pegawaiList.querySelector('[data-pegawai-card]').cloneNode(true);
+                card.querySelectorAll('[data-field]').forEach((field) => {
+                    field.value = '';
+                });
+                pegawaiList.append(card);
+                updatePegawaiCards();
+                card.querySelector('[data-field="nip"]').focus();
+            });
+
+            pegawaiList.addEventListener('click', (event) => {
+                const removeButton = event.target.closest('[data-remove-pegawai]');
+
+                if (!removeButton) {
+                    return;
+                }
+
+                removeButton.closest('[data-pegawai-card]').remove();
+                updatePegawaiCards();
+            });
+
+            updatePegawaiCards();
+        }
+    </script>
+@endpush

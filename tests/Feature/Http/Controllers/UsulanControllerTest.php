@@ -19,8 +19,10 @@ class UsulanControllerTest extends TestCase
         $this->get(route('usulan.create'))
             ->assertOk()
             ->assertViewIs('usulan.create')
-            ->assertSee('Tambah Usulan Satyalancana')
-            ->assertSee('Penyimpanan usulan belum tersedia.');
+            ->assertSee('Form Pengajuan Satyalancana Karya Satya')
+            ->assertSee('Tambah Nama Pegawai')
+            ->assertSee('pegawai[0][nip]')
+            ->assertSee('pegawai[0][nama]');
     }
 
     public function test_proposal_detail_page_renders(): void
