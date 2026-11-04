@@ -22,7 +22,10 @@ class UsulanControllerTest extends TestCase
             ->assertSee('Form Pengajuan Satyalancana Karya Satya')
             ->assertSee('Tambah Nama Pegawai')
             ->assertSee('pegawai[0][nip]')
-            ->assertSee('pegawai[0][nama]');
+            ->assertSee('pegawai[0][nama]')
+            ->assertSee('pegawai[0][jenis]')
+            ->assertSee('pegawai[0][dokumen][surat_pengantar]')
+            ->assertSeeInOrder(['</fieldset>', 'id="tambah-pegawai"']);
     }
 
     public function test_proposal_detail_page_renders(): void

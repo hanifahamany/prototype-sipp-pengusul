@@ -5,12 +5,12 @@
 @section('content')
 @php
     $dokumen = [
-        ['nama' => 'Surat pengantar dan lampiran daftar nama', 'wajib' => true,  'catatan' => null],
-        ['nama' => 'Salinan sah piagam Satyalancana',          'wajib' => false, 'catatan' => '(khusus untuk pilihan 20 tahun & 30 tahun)'],
-        ['nama' => 'Asli daftar riwayat hidup',                'wajib' => true,  'catatan' => null],
-        ['nama' => 'SK CPNS',                                  'wajib' => true,  'catatan' => null],
-        ['nama' => 'Salinan sah SK pangkat terakhir',          'wajib' => true,  'catatan' => null],
-        ['nama' => 'Salinan sah SK jabatan terakhir',          'wajib' => true,  'catatan' => null],
+        ['id' => 'surat_pengantar', 'nama' => 'Surat pengantar dan lampiran daftar nama', 'wajib' => true,  'catatan' => null],
+        ['id' => 'piagam',          'nama' => 'Salinan sah piagam Satyalancana',          'wajib' => false, 'catatan' => '(khusus untuk pilihan 20 tahun & 30 tahun)'],
+        ['id' => 'daftar_riwayat_hidup', 'nama' => 'Asli daftar riwayat hidup',           'wajib' => true,  'catatan' => null],
+        ['id' => 'sk_cpns',         'nama' => 'SK CPNS',                                  'wajib' => true,  'catatan' => null],
+        ['id' => 'sk_pangkat',      'nama' => 'Salinan sah SK pangkat terakhir',          'wajib' => true,  'catatan' => null],
+        ['id' => 'sk_jabatan',      'nama' => 'Salinan sah SK jabatan terakhir',          'wajib' => true,  'catatan' => null],
     ];
 
     $input = 'h-[42px] w-full rounded-lg border border-[#E5E7EB] bg-white px-3.5 text-sm text-[#364153] placeholder:text-[#99A1AF] focus:border-[#00A4FF] focus:outline-none focus:ring-2 focus:ring-[#E2F2FD]';
@@ -29,7 +29,7 @@
         <p class="mt-1 text-sm">Lengkapi data berikut untuk mengajukan permohonan Satyalancana Karya Satya</p>
     </div>
 
-    <form>
+    <form enctype="multipart/form-data">
         <div class="space-y-7 p-6">
 
             <div>
@@ -85,6 +85,51 @@
                                        placeholder="Otomatis terisi setelah NIP dimasukkan" class="{{ $input }}">
                             </div>
                         </div>
+
+                        <div class="mt-7 border-t border-[#E5E7EB] pt-5">
+                            <h4 class="{{ $judulSeksi }}">Jenis Satyalancana</h4>
+                            <div class="mt-3">
+                                <label data-label-field="jenis" for="pegawai-0-jenis" class="{{ $label }}">Pilih Jenis Satyalancana <span class="text-[#E7000B]">*</span></label>
+                                <select data-field="jenis" id="pegawai-0-jenis" name="pegawai[0][jenis]" class="{{ $input }} cursor-pointer text-[#1E2939]">
+                                    <option value="">Pilih jenis Satyalancana</option>
+                                    <option value="10">Satyalancana Karya Satya 10 Tahun</option>
+                                    <option value="20">Satyalancana Karya Satya 20 Tahun</option>
+                                    <option value="30">Satyalancana Karya Satya 30 Tahun</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-7 border-t border-[#E5E7EB] pt-5">
+                            <h4 class="{{ $judulSeksi }}">Upload Dokumen Persyaratan</h4>
+                            <ul class="mt-3 space-y-3 rounded-xl bg-[#E2F2FD] p-5">
+                                @foreach ($dokumen as $d)
+                                    <li data-document-row class="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-[#E5E7EB] bg-white px-4 py-4">
+                                        <div class="flex min-w-0 items-center gap-3">
+                                            <span class="h-4 w-4 shrink-0 rounded-full bg-[#D1D5DC]"></span>
+                                            <div class="min-w-0 text-xs text-[#364153]">
+                                                <p>
+                                                    {{ $d['nama'] }}
+                                                    @if ($d['catatan']) {{ $d['catatan'] }} @endif
+                                                    @if ($d['wajib']) <span class="text-[#E7000B]">*</span> @endif
+                                                </p>
+                                                <p data-file-name class="mt-1 truncate text-[#99A1AF]">Belum ada file dipilih</p>
+                                            </div>
+                                        </div>
+
+                                        <input data-document-field="{{ $d['id'] }}"
+                                               data-document-label="{{ $d['nama'] }}"
+                                               id="pegawai-0-dokumen-{{ $d['id'] }}"
+                                               name="pegawai[0][dokumen][{{ $d['id'] }}]"
+                                               type="file" accept=".pdf,.jpg,.jpeg,.png" class="sr-only">
+                                        <button type="button" data-upload-button
+                                                class="inline-flex h-[30px] shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-[#00A4FF] px-3 text-xs font-medium text-white hover:bg-[#0090E0]">
+                                            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+                                            Upload
+                                        </button>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </fieldset>
                 </div>
 
@@ -95,51 +140,6 @@
                 </button>
             </div>
 
-            {{-- Jenis Satyalancana --}}
-            <div>
-                <h2 class="{{ $judulSeksi }}">
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></svg>
-                    Jenis Satyalancana
-                </h2>
-
-                <div class="mt-3">
-                    <label for="jenis" class="{{ $label }}">Pilih Jenis Satyalancana <span class="text-[#E7000B]">*</span></label>
-                    <select id="jenis" name="jenis" class="{{ $input }} cursor-pointer text-[#1E2939]">
-                        <option value="">Pilih jenis Satyalancana</option>
-                        <option value="10">Satyalancana Karya Satya 10 Tahun</option>
-                        <option value="20">Satyalancana Karya Satya 20 Tahun</option>
-                        <option value="30">Satyalancana Karya Satya 30 Tahun</option>
-                    </select>
-                </div>
-            </div>
-
-            <div>
-                <h2 class="{{ $judulSeksi }}">
-                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
-                    Upload Dokumen Persyaratan
-                </h2>
-
-                <ul class="mt-3 space-y-3 rounded-xl bg-[#E2F2FD] p-5">
-                    @foreach ($dokumen as $d)
-                        <li class="flex items-center justify-between gap-3 rounded-lg border border-[#E5E7EB] bg-white px-4 py-4">
-                            <div class="flex min-w-0 items-center gap-3">
-                                <span class="h-4 w-4 shrink-0 rounded-full bg-[#D1D5DC]"></span>
-                                <span class="text-xs text-[#364153]">
-                                    {{ $d['nama'] }}
-                                    @if ($d['catatan']) {{ $d['catatan'] }} @endif
-                                    @if ($d['wajib']) <span class="text-[#E7000B]">*</span> @endif
-                                </span>
-                            </div>
-
-                            <button type="button"
-                                    class="inline-flex h-[30px] shrink-0 cursor-pointer items-center gap-1.5 rounded-lg bg-[#00A4FF] px-3 text-xs font-medium text-white hover:bg-[#0090E0]">
-                                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
-                                Upload
-                            </button>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
         </div>
 
         <div class="mx-6 flex justify-end gap-3 border-t border-[#E5E7EB] py-5">
@@ -154,14 +154,37 @@
         </div>
     </form>
 </section>
+
+<dialog id="hapus-pegawai-dialog" aria-labelledby="hapus-pegawai-title"
+        class="m-auto w-[calc(100%-2rem)] max-w-md rounded-2xl border border-[#E5E7EB] bg-white p-0 text-[#1E2939] shadow-2xl backdrop:bg-[#101828]/50">
+    <div class="p-6">
+        <h2 id="hapus-pegawai-title" class="text-lg font-semibold">Hapus Usulan</h2>
+        <p class="mt-2 text-sm text-[#6A7282]">Yakin menghapus usulan untuk pegawai ini?</p>
+        <div class="mt-6 flex justify-end gap-3">
+            <button type="button" data-cancel-delete
+                    class="inline-flex h-10 items-center rounded-lg border border-[#E5E7EB] bg-white px-5 text-sm text-[#364153] hover:bg-[#F9FAFB]">
+                Batal
+            </button>
+            <button type="button" data-confirm-delete
+                    class="inline-flex h-10 items-center rounded-lg bg-[#E7000B] px-5 text-sm font-semibold text-white hover:bg-[#C90009]">
+                Ya, Hapus
+            </button>
+        </div>
+    </div>
+</dialog>
 @endsection
 
 @push('scripts')
     <script>
         const pegawaiList = document.getElementById('pegawai-list');
         const tambahPegawaiButton = document.getElementById('tambah-pegawai');
+        const hapusPegawaiDialog = document.getElementById('hapus-pegawai-dialog');
 
-        if (pegawaiList && tambahPegawaiButton) {
+        if (pegawaiList && tambahPegawaiButton && hapusPegawaiDialog) {
+            let pegawaiYangAkanDihapus = null;
+            const tutupDialogButton = hapusPegawaiDialog.querySelector('[data-cancel-delete]');
+            const konfirmasiHapusButton = hapusPegawaiDialog.querySelector('[data-confirm-delete]');
+
             const updatePegawaiCards = () => {
                 const cards = [...pegawaiList.querySelectorAll('[data-pegawai-card]')];
 
@@ -175,16 +198,29 @@
                         field.name = `pegawai[${index}][${name}]`;
                     });
 
+                    card.querySelectorAll('[data-document-field]').forEach((field) => {
+                        const documentId = field.dataset.documentField;
+                        field.id = `pegawai-${index}-dokumen-${documentId}`;
+                        field.name = `pegawai[${index}][dokumen][${documentId}]`;
+                    });
+
                     card.querySelectorAll('[data-label-field]').forEach((label) => {
                         label.htmlFor = `pegawai-${index}-${label.dataset.labelField}`;
+                    });
+
+                    card.querySelectorAll('[data-document-label]').forEach((label) => {
+                        label.htmlFor = `pegawai-${index}-dokumen-${label.dataset.documentField}`;
                     });
                 });
             };
 
             tambahPegawaiButton.addEventListener('click', () => {
                 const card = pegawaiList.querySelector('[data-pegawai-card]').cloneNode(true);
-                card.querySelectorAll('[data-field]').forEach((field) => {
+                card.querySelectorAll('[data-field], [data-document-field]').forEach((field) => {
                     field.value = '';
+                });
+                card.querySelectorAll('[data-file-name]').forEach((fileName) => {
+                    fileName.textContent = 'Belum ada file dipilih';
                 });
                 pegawaiList.append(card);
                 updatePegawaiCards();
@@ -194,12 +230,38 @@
             pegawaiList.addEventListener('click', (event) => {
                 const removeButton = event.target.closest('[data-remove-pegawai]');
 
-                if (!removeButton) {
+                if (removeButton) {
+                    pegawaiYangAkanDihapus = removeButton.closest('[data-pegawai-card]');
+                    hapusPegawaiDialog.showModal();
                     return;
                 }
 
-                removeButton.closest('[data-pegawai-card]').remove();
+                const uploadButton = event.target.closest('[data-upload-button]');
+
+                if (uploadButton) {
+                    uploadButton.closest('[data-document-row]').querySelector('[data-document-field]').click();
+                }
+            });
+
+            tutupDialogButton.addEventListener('click', () => hapusPegawaiDialog.close());
+
+            konfirmasiHapusButton.addEventListener('click', () => {
+                pegawaiYangAkanDihapus?.remove();
                 updatePegawaiCards();
+                hapusPegawaiDialog.close();
+            });
+
+            hapusPegawaiDialog.addEventListener('close', () => {
+                pegawaiYangAkanDihapus = null;
+            });
+
+            pegawaiList.addEventListener('change', (event) => {
+                const fileInput = event.target.closest('[data-document-field]');
+
+                if (fileInput) {
+                    fileInput.closest('[data-document-row]').querySelector('[data-file-name]').textContent =
+                        fileInput.files[0]?.name ?? 'Belum ada file dipilih';
+                }
             });
 
             updatePegawaiCards();
