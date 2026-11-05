@@ -6,8 +6,10 @@ use Illuminate\View\View;
 
 class CommController extends Controller
 {
-    public function show(string $id): View
+    public function show(?string $id = null): View
     {
+        $id ??= '1';
+
         return view('usulan.comm', [
             'id' => $id,
             'user' => [

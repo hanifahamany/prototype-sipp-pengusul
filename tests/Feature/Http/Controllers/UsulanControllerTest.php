@@ -11,7 +11,8 @@ class UsulanControllerTest extends TestCase
     {
         $this->get(route('dashboard'))
             ->assertOk()
-            ->assertSee(route('usulan.create'));
+            ->assertSee(route('usulan.create'))
+            ->assertSee(route('usulan.show'));
     }
 
     public function test_create_page_displays_the_new_proposal_form_without_authentication(): void
@@ -30,20 +31,20 @@ class UsulanControllerTest extends TestCase
 
     public function test_proposal_detail_page_renders(): void
     {
-        $this->get(route('usulan.show', 1))
+        $this->get(route('usulan.show'))
             ->assertOk()
             ->assertViewIs('usulan.show')
             ->assertSee('Detail Usulan Satyalancana')
             ->assertSee('Budi Santoso');
     }
 
-    public function test_legacy_proposal_detail_url_redirects_to_the_detail_page(): void
+    public function test_proposal_id_url_redirects_to_the_canonical_detail_page(): void
     {
-        $this->get('/usulan/show?1')
-            ->assertRedirect(route('usulan.show', 1));
+        $this->get('/usulan/1')
+            ->assertRedirect(route('usulan.show'));
     }
 
-    public function test_legacy_proposal_detail_url_rejects_a_non_numeric_identifier(): void
+    public function test_canonical_proposal_detail_url_rejects_a_non_numeric_identifier(): void
     {
         $this->get('/usulan/show?id=invalid')
             ->assertNotFound();
@@ -76,7 +77,7 @@ class UsulanControllerTest extends TestCase
             'jabatan' => 'Analis Kepegawaian',
             'unit_kerja' => 'Biro Organisasi dan SDM',
         ])
-            ->assertRedirect(route('usulan.show', 1))
+            ->assertRedirect(route('usulan.show'))
             ->assertSessionHas('status', 'Penyimpanan perubahan belum tersedia.');
     }
 }

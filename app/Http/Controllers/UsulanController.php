@@ -20,18 +20,7 @@ class UsulanController extends Controller
         ]);
     }
 
-    public function show(string $id): View
-    {
-        return view('usulan.show', [
-            'user' => [
-                'nama' => 'Pengusul Layanan Satyalancana',
-                'unit' => 'Layanan Satyalancana Karya Satya',
-            ],
-            'usulan' => $this->findUsulan($id),
-        ]);
-    }
-
-    public function showLegacy(Request $request): RedirectResponse
+    public function show(Request $request): View
     {
         $query = $request->query();
         $id = $query['id'] ?? null;
@@ -40,9 +29,21 @@ class UsulanController extends Controller
             $id = array_key_first($query);
         }
 
+        $id ??= '1';
         abort_unless((is_int($id) || is_string($id)) && ctype_digit((string) $id), 404);
 
-        return redirect()->route('usulan.show', ['id' => (string) $id]);
+        return view('usulan.show', [
+            'user' => [
+                'nama' => 'Pengusul Layanan Satyalancana',
+                'unit' => 'Layanan Satyalancana Karya Satya',
+            ],
+            'usulan' => $this->findUsulan((string) $id),
+        ]);
+    }
+
+    public function redirectToShow(string $id): RedirectResponse
+    {
+        return redirect()->route('usulan.show');
     }
 
     public function update(Request $request, string $id): RedirectResponse
@@ -56,7 +57,7 @@ class UsulanController extends Controller
         ]);
 
         return redirect()
-            ->route('usulan.show', $id)
+            ->route('usulan.show')
             ->with('status', 'Penyimpanan perubahan belum tersedia.');
     }
 

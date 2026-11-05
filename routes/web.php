@@ -18,10 +18,12 @@ Route::post('forgot-password', fn () => redirect()->route('login'))->name('passw
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/usulan', [UsulanController::class, 'create'])->name('usulan.create');
-Route::get('/usulan/show', [UsulanController::class, 'showLegacy'])->name('usulan.show.legacy');
-Route::get('/usulan/{id}', [UsulanController::class, 'show'])->whereNumber('id')->name('usulan.show');
+Route::get('/usulan/show', [UsulanController::class, 'show'])->name('usulan.show');
+Route::get('/usulan/comm', [CommController::class, 'show'])->name('usulan.comm');
+Route::get('/usulan/{id}', [UsulanController::class, 'redirectToShow'])
+    ->whereNumber('id')->name('usulan.show.redirect');
 Route::get('/usulan/{id}/comm', [CommController::class, 'show'])
-    ->whereNumber('id')->name('usulan.comm');
+    ->whereNumber('id')->name('usulan.comm.legacy');
 Route::put('/usulan/{id}', [UsulanController::class, 'update'])->whereNumber('id')->name('usulan.update');
 Route::get('/usulan/{id}/dokumen/{dokumen}/lihat', [UsulanController::class, 'lihatDokumen'])
     ->whereNumber(['id', 'dokumen'])->name('usulan.dokumen.lihat');
